@@ -1,4 +1,4 @@
-/*horseman-config enable-explore*/
+/* horseman-config enable-explore */
 var star_ratings = []
 var review_date = []
 var count_of_ratings = []
