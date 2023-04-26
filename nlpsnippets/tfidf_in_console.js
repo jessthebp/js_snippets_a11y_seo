@@ -2,16 +2,23 @@ function extractTextContent() {
   const allElements = document.querySelectorAll('body *');
   let textContent = '';
   for (let i = 0; i < allElements.length; i++) {
-    textContent += allElements[i].textContent + ' ';
+    textContent += allElements[i].innerText + ' ';
   }
   return textContent.trim().toLowerCase();
 }
 
 
-
 function calculateTFIDF(document, corpus) {
-   document = document.replace(/[^\w\s]|_/g, ' ').replace(/\s+/g, ' ').trim();
-  const words = document.split(' ');
+   document = document.replace(/[^\w\s]|[\d]/gi, ' ').replace(/[\n\t]+/g, ' ');
+
+// Convert all characters to lowercase
+document = document.toLowerCase();
+
+// Split the document into an array of words
+let words = document.split(' ');
+
+
+
   const totalDocuments = corpus.length;
   const wordCounts = {};
 
@@ -46,9 +53,9 @@ function calculateTFIDF(document, corpus) {
     const tfidf = tf * idf;
     wordTFIDFs[word] = tfidf;
   });
-
+// Remove any words that are empty or only contain whitespace
   // Sort words by TF-IDF score in descending order
-  const sortedWords = Object.keys(wordTFIDFs).sort((a, b) => wordTFIDFs[b] - wordTFIDFs[a]);
+  const sortedWords = Object.keys(wordTFIDFs).sort((a, b) => wordTFIDFs[b] - wordTFIDFs[a]).filter(word => word.trim().length > 0);
 
   // Return top 5 words by TF-IDF score
   return sortedWords.slice(0, 5);
@@ -62,3 +69,5 @@ console.log(topKeywords);
 
 // example: https://github.blog/2023-04-26-cli-tricks-every-developer-should-know/ returns ['github', 'command', 'cli', 'developers', 'commands']
 // :)
+
+// example: https://searchengineland.com/why-were-turning-off-amp-pages-at-search-engine-land-376228 returns ['amp', 'search', 'google', 'engine', 'land']
