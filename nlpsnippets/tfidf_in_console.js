@@ -1,3 +1,14 @@
+function extractTextContent() {
+  const allElements = document.querySelectorAll('body *');
+  let textContent = '';
+  for (let i = 0; i < allElements.length; i++) {
+    textContent += allElements[i].textContent + ' ';
+  }
+  return textContent.trim().toLowerCase();
+}
+
+
+
 function calculateTFIDF(document, corpus) {
    document = document.replace(/[^\w\s]|_/g, ' ').replace(/\s+/g, ' ').trim();
   const words = document.split(' ');
